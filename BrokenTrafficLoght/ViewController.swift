@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet var greenColorView: UIView!
     @IBOutlet var readyButton: UIButton!
     
- var tapped = true
+    private var currentColor = CurrentColor.red
     
     override func viewWillLayoutSubviews() {
         redColorView.layer.cornerRadius = redColorView.frame.height / 2
@@ -32,32 +32,46 @@ class ViewController: UIViewController {
     
     @IBAction func readyButtonTapped() {
         
-        if readyButton.currentTitle == "Start" {
-            readyButton.setTitle("Ready!", for: .normal)
-        } else if readyButton.currentTitle == "Ready!" {
-            readyButton.setTitle("Set!!", for: .normal)
-        } else if readyButton.currentTitle == "Set!!" {
-            readyButton.setTitle("GO!!!", for: .normal)
-        } else if readyButton.currentTitle == "GO!!!" {
-            readyButton.setTitle("Ready!", for: .normal)
+        if readyButton.currentTitle == "What is this color?" {
+            readyButton.setTitle("It's red", for: .normal)
+        } else if readyButton.currentTitle == "It's red" {
+            readyButton.setTitle("It's yellow", for: .normal)
+        } else if readyButton.currentTitle == "It's yellow" {
+            readyButton.setTitle("It's green", for: .normal)
+        } else if readyButton.currentTitle == "It's green" {
+            readyButton.setTitle("It's red", for: .normal)
         }
         
-        if tapped {
-            tapped = false
+        switch currentColor {
+        case .red:
             redColorView.alpha = 1
-            view.backgroundColor = UIColor.systemRed
-        } else if  redColorView.alpha == 1{
-            redColorView.alpha = 0.3
+            redColorView.backgroundColor = UIColor.systemRed
+
             yellowColorView.alpha = 1
-            view.backgroundColor = UIColor.systemYellow
-        } else if yellowColorView.alpha == 1 {
-            yellowColorView.alpha = 0.3
+            yellowColorView.backgroundColor = UIColor.black
             greenColorView.alpha = 1
-            view.backgroundColor = UIColor.systemGreen
-        } else if greenColorView.alpha == 1 {
-            greenColorView.alpha = 0.3
-            redColorView.alpha = 1
+            greenColorView.backgroundColor = UIColor.black
             view.backgroundColor = UIColor.systemRed
+            currentColor = .yellow
+        case .yellow:
+            redColorView.backgroundColor = UIColor.black
+            yellowColorView.alpha = 1
+            yellowColorView.backgroundColor = UIColor.systemYellow
+            currentColor = .green
+            view.backgroundColor = UIColor.systemYellow
+        case .green:
+            yellowColorView.backgroundColor = UIColor.black
+            greenColorView.backgroundColor = UIColor.systemGreen
+            currentColor = .red
+            view.backgroundColor = UIColor.systemGreen
         }
+    }
+}
+
+extension ViewController {
+    enum CurrentColor {
+        case red
+        case yellow
+        case green
     }
 }
